@@ -1,17 +1,17 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import keys from "@/keys";
 import {
-    AccessToken,
-    SpotifyApi,
-    Playlist as SpotifyPlaylist,
+  AccessToken,
+  SpotifyApi,
+  Playlist as SpotifyPlaylist,
 } from "@spotify/web-api-ts-sdk";
 import { getServerSession } from "next-auth/next";
 import authOptions from "../../api/auth/[...nextauth]/auth-options";
@@ -82,18 +82,20 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {playlist.tracks.items.map((track) => (
-                  <TableRow
-                    key={track.track.id}
-                    className="text-sm text-gray-800"
-                  >
-                    <TableCell>{track.track.name}</TableCell>
-                    <TableCell>
-                      {Number(track.track.duration_ms / 1000 / 60).toFixed(2)}{" "}
-                      min
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {playlist.tracks.items.map((track) =>
+                  track.track !== null ? (
+                    <TableRow
+                      key={track.track.id}
+                      className="text-sm text-gray-800"
+                    >
+                      <TableCell>{track.track.name}</TableCell>
+                      <TableCell>
+                        {Number(track.track.duration_ms / 1000 / 60).toFixed(2)}{" "}
+                        min
+                      </TableCell>
+                    </TableRow>
+                  ) : null
+                )}
               </TableBody>
             </Table>
           </CardContent>
