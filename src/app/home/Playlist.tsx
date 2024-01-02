@@ -19,8 +19,8 @@ function Playlist({ spotifyPlaylist }: { spotifyPlaylist: SpotifyPlaylist }) {
                 className="h-10 w-10 rounded-md object-cover"
                 src={spotifyPlaylist.images[0].url}
                 alt={spotifyPlaylist.name}
-                width={25}
-                height={25}
+                width={40}
+                height={40}
               />
               <div>
                 <p className="text-base">{spotifyPlaylist.name}</p>
