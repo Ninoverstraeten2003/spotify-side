@@ -16,7 +16,7 @@ const isPlaylist = (value: any): value is SpotifyPlaylist => (value.type === "er
 const getPlaylists = async ({ accessToken, userId }: { accessToken: AccessToken; userId: string }) => {
   console.debug("[Called]", "getPlaylists");
   const playlists: Page<SpotifyPlaylist> = await SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, 50);
-  console.debug("[Result]", "getPlaylistsLength: " + playlists.items.length);
+  console.debug("[Result]", "getPlaylists" + JSON.stringify(playlists.items));
   return playlists;
 };
 
