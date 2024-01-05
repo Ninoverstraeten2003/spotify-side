@@ -17,7 +17,7 @@ function Playlist({ spotifyPlaylist }: { spotifyPlaylist: SpotifyPlaylist }) {
             <CardTitle className="flex items-center gap-2">
               <Image
                 className="h-10 w-10 rounded-md object-cover"
-                src={spotifyPlaylist.images[0].url}
+                src={spotifyPlaylist.images[0]?.url}
                 alt={spotifyPlaylist.name}
                 width={40}
                 height={40}

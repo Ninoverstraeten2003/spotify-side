@@ -34,7 +34,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
   });
 
   const likedTrackIds = await getLikedTracks({ trackIds: playlist.tracks.items.map((track) => track.track.id), accessToken: accessToken });
-  
+
   // const likedTrackIds = new Set<string>();
 
   return (
@@ -43,7 +43,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
         <Card>
           <CardHeader className="mx-4 flex flex-col gap-2">
             <CardTitle className="flex items-center gap-4">
-              <Image className="h-10 w-10 rounded-md object-cover" src={playlist.images[0].url} alt={playlist.name} width={40} height={40} />
+              <Image className="h-10 w-10 rounded-md object-cover" src={playlist?.images?.at(0)?.url || ""} alt={playlist.name} width={40} height={40} />
               <div>
                 <h2 className="text-2xl font-bold text-gray-800">{playlist.name}</h2>
                 <p className="text-sm text-gray-500">{playlist.description}</p>
@@ -65,6 +65,13 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {playlist.tracks.items.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={3} className="text-start">
+                      No Tracks
+                    </TableCell>
+                  </TableRow>
+                )}
                 {playlist.tracks.items.map((track) =>
                   track.track !== null ? (
                     <TableRow key={track.track.id} className="text-sm text-gray-800">

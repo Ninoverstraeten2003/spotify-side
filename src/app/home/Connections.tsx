@@ -26,8 +26,11 @@ export default function Connections({ connections }: { connections: User[] }) {
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
 
-  const [leftValues, setLeftValues] = React.useState<ConvertMapArrayToMap<User[], "display_name", "id"> | null>(convertMapArrayToMap(connections, "display_name", "id"));
+  const [leftValues, setLeftValues] = React.useState<ConvertMapArrayToMap<User[], "display_name", "id"> | null>(null);
   const [rightValues, setRightValues] = React.useState<ConvertMapArrayToMap<User[], "display_name", "id"> | null>(null);
+
+  const userArrayToMap = convertMapArrayToMap(connections, "display_name", "id");
+  if (Object.keys(userArrayToMap).length !== 0) setLeftValues(userArrayToMap);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
