@@ -1,12 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import authOptions from "../../api/auth/[...nextauth]/auth-options";
-import { getPlaylist, getPossibleConnections, getLikedTracks, isPlaylist, areUsers, isSetOfTrackIds } from "@/service/server";
 import Connections from "../Connections";
-import { Heart } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { getPlaylist, isPlaylist, getLikedTracks, isSetOfTrackIds } from "@/service/server";
 
 const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
   const session = await getServerSession(authOptions);
@@ -27,11 +27,90 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
     },
   });
   if (!isPlaylist(playlist)) return <p>{playlist.message}</p>;
+  // const playlist: any = {
+  //   name: "Awesome Playlist",
+  //   description: "A collection of great tracks",
+  //   owner: {
+  //     display_name: "John Doe",
+  //   },
+  //   images: [
+  //     {
+  //       url: "https://example.com/playlist-cover.jpg",
+  //     },
+  //   ],
+  //   tracks: {
+  //     items: [
+  //       {
+  //         track: {
+  //           id: "1",
+  //           name: "Track 1",
+  //           duration_ms: 240000, // 4 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "2",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "3",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "4",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "5",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "6",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "7",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "8",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //       {
+  //         track: {
+  //           id: "9",
+  //           name: "Track 2",
+  //           duration_ms: 180000, // 3 minutes
+  //         },
+  //       },
+  //     ],
+  //   },
+  // };
 
   const likedTrackIds = await getLikedTracks({ trackIds: playlist.tracks.items.map((track) => track.track?.id), accessToken: accessToken });
   if (!isSetOfTrackIds(likedTrackIds)) return <p>{likedTrackIds.message}</p>;
 
-  // const likedTrackIds = new Set<string>();
+  // const likedTrackIds = new Set(["1", "3"]);
 
   return (
     <>
@@ -71,7 +150,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
                 {playlist.tracks.items.map((track) =>
                   track.track !== null ? (
                     <TableRow key={track.track.id} className="text-sm text-gray-800">
-                      <TableCell>{track.track.name}</TableCell>
+                      <TableCell className="w-full">{track.track.name}</TableCell>
                       <TableCell className="text-nowrap">{Number(track.track.duration_ms / 1000 / 60).toFixed(2)} min</TableCell>
                       <TableCell>
                         <Heart className={cn(likedTrackIds.has(track.track.id) && "fill-red-500", "text-red-500")} />
