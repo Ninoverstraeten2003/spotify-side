@@ -18,7 +18,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="container h-full">{playlists?.items.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists?.items} />}</div>
+      <div className="container h-full">{playlists?.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists} />}</div>
     </>
   );
 }

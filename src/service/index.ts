@@ -15,9 +15,11 @@ const isPlaylist = (value: any): value is SpotifyPlaylist => (value.type === "er
 
 const getPlaylists = async ({ accessToken, userId }: { accessToken: AccessToken; userId: string }) => {
   console.debug("[Called]", "getPlaylists");
-  const playlists: Page<SpotifyPlaylist> = await SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, 50);
-  console.debug("[Result]", "getPlaylists" + JSON.stringify(playlists.items));
-  return playlists;
+  const total = (await SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, 1)).total;
+
+  const playlistsPromises = Array.from({ length: Math.ceil(total / 50) }, (_, i) => SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, 50, i * 50));
+  const playlists = await Promise.all(playlistsPromises);
+  return playlists?.map(playlist => playlist.items).flat();
 };
 
 const getPossibleConnections = async ({ accessToken, userId }: { accessToken: AccessToken; userId: string }) => {
@@ -26,7 +28,7 @@ const getPossibleConnections = async ({ accessToken, userId }: { accessToken: Ac
   const uniqueUserIds = new Set<string>();
 
   // Iterate over each playlist and add user IDs to the set
-  playlists.items.forEach((playlist) => {
+  playlists.forEach((playlist) => {
     uniqueUserIds.add(playlist.owner.id);
     playlist?.tracks?.items?.forEach((item) => {
       uniqueUserIds.add(item.added_by.id);

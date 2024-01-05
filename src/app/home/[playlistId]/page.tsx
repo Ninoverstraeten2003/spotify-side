@@ -33,7 +33,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
     accessToken: accessToken,
   });
 
-  const likedTrackIds = await getLikedTracks({ trackIds: playlist.tracks.items.map((track) => track.track.id), accessToken: accessToken });
+  const likedTrackIds = await getLikedTracks({ trackIds: playlist.tracks.items.map((track) => track.track?.id), accessToken: accessToken });
 
   // const likedTrackIds = new Set<string>();
 
