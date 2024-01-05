@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import authOptions from "../../api/auth/[...nextauth]/auth-options";
-import { getPlaylist, getPossibleConnections, getLikedTracks, isPlaylist } from "@/service/index";
+import { getPlaylist, getPossibleConnections, getLikedTracks, isPlaylist, areUsers, isSetOfTrackIds } from "@/service/server";
 import Connections from "../Connections";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -28,12 +28,8 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
   });
   if (!isPlaylist(playlist)) return <p>{playlist.message}</p>;
 
-  const connections = await getPossibleConnections({
-    userId: session?.user.id!,
-    accessToken: accessToken,
-  });
-
   const likedTrackIds = await getLikedTracks({ trackIds: playlist.tracks.items.map((track) => track.track?.id), accessToken: accessToken });
+  if (!isSetOfTrackIds(likedTrackIds)) return <p>{likedTrackIds.message}</p>;
 
   // const likedTrackIds = new Set<string>();
 
@@ -53,7 +49,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
               <span className="mr-2 text-sm text-gray-500">Owner:</span>
               <span className="text-sm text-gray-800">{playlist.owner.display_name}</span>
             </CardDescription>
-            <Connections connections={connections} />
+            <Connections />
           </CardHeader>
           <CardContent>
             <Table>

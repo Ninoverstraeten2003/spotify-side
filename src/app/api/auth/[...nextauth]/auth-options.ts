@@ -1,7 +1,8 @@
 import keys from "@/keys";
-import spotifyProfile, { refreshAccessToken } from "./spotify-profile";
-import { Account, type AuthOptions, User } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
+import { Account } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import spotifyProfile, { refreshAccessToken } from "./spotify-profile";
 
 export type AuthUser = {
   name: string;
@@ -16,7 +17,7 @@ export type AuthUser = {
   id: string;
 };
 
-const authOptions: AuthOptions = {
+const authOptions = {
   providers: [spotifyProfile],
   session: {
     maxAge: 60 * 60, // 1hr
@@ -61,6 +62,6 @@ const authOptions: AuthOptions = {
   },
   debug: process.env.NODE_ENV === "development",
   secret: keys.NEXTAUTH_SECRET,
-};
+} satisfies NextAuthOptions;
 
 export default authOptions;

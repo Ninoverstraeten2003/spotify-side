@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import authOptions from "../api/auth/[...nextauth]/auth-options";
 import Playlists from "./Playlists";
-import { getPlaylists } from "@/service";
+import { getPlaylists, arePlaylists } from "@/service/server";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
@@ -15,7 +15,7 @@ export default async function HomePage() {
     userId: session?.user.id!,
     accessToken: accessToken,
   });
-
+  if( !arePlaylists(playlists)) return <p>{playlists.message}</p>;
   return (
     <>
       <div className="container h-full">{playlists?.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists} />}</div>

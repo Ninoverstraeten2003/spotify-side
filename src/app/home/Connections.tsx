@@ -4,8 +4,10 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { areUsers, getPossibleConnections } from "@/service/client";
 import { User } from "@spotify/web-api-ts-sdk";
 import { ChevronsUpDown, MoveRight } from "lucide-react";
+import { getSession } from "next-auth/react";
 import React from "react";
 
 type ConvertMapArrayToMap<ArrayType extends Array<{ [Key: string | number | symbol]: any }>, KeyType extends keyof ArrayType[number], ValueType extends keyof ArrayType[number]> = {
@@ -22,7 +24,7 @@ const convertMapArrayToMap = <ItemType extends Record<KeyType | ValueType, any>,
   );
 };
 
-export default function Connections({ connections }: { connections: User[] }) {
+export default function Connections() {
   const [open, setOpen] = React.useState(false);
   const [open2, setOpen2] = React.useState(false);
 
@@ -30,8 +32,19 @@ export default function Connections({ connections }: { connections: User[] }) {
   const [rightValues, setRightValues] = React.useState<ConvertMapArrayToMap<User[], "display_name", "id"> | null>(null);
 
   React.useEffect(() => {
-    const userArrayToMap = convertMapArrayToMap(connections, "display_name", "id");
-    if (Object.keys(userArrayToMap).length !== 0) setLeftValues(userArrayToMap);
+    async function getConnections() {
+      const session = await getSession();
+      if (!session?.user) return null;
+
+      const connections = await getPossibleConnections({
+        userId: session?.user.id,
+      });
+      if (!areUsers(connections)) return null;
+
+      const userArrayToMap = convertMapArrayToMap(connections, "display_name", "id");
+      if (Object.keys(userArrayToMap).length !== 0) setLeftValues(userArrayToMap);
+    }
+    getConnections();
   }, []);
 
   return (
