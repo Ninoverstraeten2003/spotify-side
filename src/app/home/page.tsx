@@ -1,10 +1,7 @@
-
 import { getServerSession } from "next-auth/next";
 import authOptions from "../api/auth/[...nextauth]/auth-options";
 import Playlists from "./Playlists";
 import { getPlaylists } from "@/service";
-
-
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
@@ -21,9 +18,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="container mt-10">
-        <Playlists playlists={playlists?.items} />
-      </div>
+      <div className="container h-full">{playlists?.items.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists?.items} />}</div>
     </>
   );
 }
