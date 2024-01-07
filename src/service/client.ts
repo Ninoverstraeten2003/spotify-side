@@ -13,7 +13,7 @@ const getPlaylist = async ({ playlistId }: { playlistId: string }) => {
 };
 
 const isPlaylist = (value: any): value is SpotifyPlaylist => (value.type === "error" ? false : true);
-const arePlaylists = (value: any): value is SpotifyPlaylist[] => (value.type === "error" ? false : true);
+const arePlaylists = (value: any): value is SpotifyPlaylist[] => (value[0]?.id ? true : false);
 
 const getPlaylists = async ({ userId }: { userId: string }) => {
   console.debug("[Called]", "getPlaylists");

@@ -22,12 +22,11 @@ export default async function HomePage() {
   //   // Add more mock playlists as needed
 
   const playlists = await fetchPlaylists(0);
-  if (!arePlaylists(playlists)) return <p>{playlists.message}</p>;
 
   return (
     <>
       <div className="container mt-20 h-full">
-        {playlists?.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists} />} <LoadPlaylists />
+        {playlists} <LoadPlaylists />
       </div>
     </>
   );

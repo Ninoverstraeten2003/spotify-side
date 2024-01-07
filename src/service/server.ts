@@ -33,7 +33,7 @@ const getPlaylistsWithPageAndLimit = async ({ accessToken, userId, page, limit }
     const playlists = await SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, limit, page * limit);
     return playlists.items;
   } catch (e) {
-    return { type: "error", message: (e as Error).message };
+    return [];
   }
 };
 

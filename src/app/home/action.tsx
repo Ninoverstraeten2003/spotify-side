@@ -3,7 +3,8 @@
 import { getPlaylistsWithPageAndLimit } from "@/service/server";
 import { getServerSession } from "next-auth/next";
 import authOptions from "../api/auth/[...nextauth]/auth-options";
-
+import Playlists from "@/app/home/Playlists";
+import { arePlaylists } from "@/service/server";
 
 const MAX_LIMIT = 6;
 
@@ -23,5 +24,5 @@ export async function fetchPlaylists(page: number) {
     limit: MAX_LIMIT,
   });
 
-  return playlists;
+  return playlists?.length === 0 ? null : <Playlists playlists={playlists} />;
 }

@@ -11,7 +11,7 @@ import { useInView } from "react-intersection-observer";
 function LoadPlaylists() {
   const { ref, inView } = useInView();
 
-  const [data, setData] = useState<Playlist[]>([]);
+  const [data, setData] = useState<JSX.Element[]>([]);
   const [page, setPage] = useState(1);
   const [hasMorePlaylists, setHasMorePlaylists] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,14 +23,11 @@ function LoadPlaylists() {
       const delay = 500;
       const timeoutId = setTimeout(() => {
         fetchPlaylists(page).then((res) => {
-          if (!arePlaylists(res)) {
-            return;
-          }
-          if (res.length === 0) {
+          if (res === null) {
             setHasMorePlaylists(false);
             return;
           }
-          setData([...data, ...res]);
+          setData([...data, res]);
           setPage((prevPage) => prevPage + 1);
         });
 
@@ -44,9 +41,7 @@ function LoadPlaylists() {
 
   return (
     <>
-      <section>
-        <Playlists playlists={data} />
-      </section>
+      <section>{data}</section>
       <section className="flex h-20 w-full items-center justify-center">
         <div ref={ref}>{inView && isLoading && <RefreshCcw className="h-5 w-5" />}</div>
         {!hasMorePlaylists && <p className="text-muted-foreground">No more playlists</p>}
