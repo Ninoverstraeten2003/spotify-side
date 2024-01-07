@@ -8,12 +8,11 @@ import { RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-let page = 1;
-
 function LoadPlaylists() {
   const { ref, inView } = useInView();
 
   const [data, setData] = useState<Playlist[]>([]);
+  const [page, setPage] = useState(1);
   const [hasMorePlaylists, setHasMorePlaylists] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,7 +31,7 @@ function LoadPlaylists() {
             return;
           }
           setData([...data, ...res]);
-          page++;
+          setPage((prevPage) => prevPage + 1);
         });
 
         setIsLoading(false);
