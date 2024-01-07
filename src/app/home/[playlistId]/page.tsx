@@ -5,8 +5,9 @@ import { Heart } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import authOptions from "../../api/auth/[...nextauth]/auth-options";
-import Connections from "../Connections";
+import Connections from "./connections";
 import { getPlaylist, isPlaylist, getLikedTracks, isSetOfTrackIds } from "@/service/server";
+import PlaylistDropdown from "./playlist-drop-down";
 
 const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
   const session = await getServerSession(authOptions);
@@ -129,6 +130,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
               <span className="text-sm text-foreground">{playlist.owner.display_name}</span>
             </CardDescription>
             <Connections />
+            <PlaylistDropdown/>
           </CardHeader>
           <CardContent>
             <Table>

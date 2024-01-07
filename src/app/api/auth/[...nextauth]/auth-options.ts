@@ -19,6 +19,9 @@ export type AuthUser = {
 
 const authOptions = {
   providers: [spotifyProfile],
+  pages: {
+    signIn: "/",
+  },
   session: {
     maxAge: 60 * 60, // 1hr
   },

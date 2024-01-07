@@ -72,6 +72,29 @@ export default function Loading() {
               </PopoverContent>
             </Popover>
           </div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" role="combobox" className="mt-0 w-[200px] justify-between">
+                {"Select Playlist"}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[200px] p-0">
+              <Command>
+                <CommandInput placeholder="Search Playlist" />
+                <CommandEmpty>No playlist found.</CommandEmpty>
+                <CommandGroup>
+                  <ScrollArea className="">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <CommandItem key={i} className="mb-2 p-0">
+                        <Skeleton className="h-8 w-full p-0" />
+                      </CommandItem>
+                    ))}
+                  </ScrollArea>
+                </CommandGroup>
+              </Command>
+            </PopoverContent>
+          </Popover>
         </CardHeader>
         <CardContent>
           <Table>
