@@ -4,7 +4,7 @@ import PlayList from "./Playlist";
 import { Playlist } from "@spotify/web-api-ts-sdk";
 
 const Playlists = ({ playlists }: { playlists?: Playlist[] }) => {
-  return <div className="mt-10">{playlists?.map((playlist) => <PlayList key={playlist.id} spotifyPlaylist={playlist} />)}</div>;
+  return playlists?.map((playlist) => <PlayList key={playlist.id} spotifyPlaylist={playlist} />);
 };
 
 export default Playlists;

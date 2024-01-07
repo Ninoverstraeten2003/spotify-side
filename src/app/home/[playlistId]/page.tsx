@@ -114,26 +114,26 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
 
   return (
     <>
-      <div className="container mx-auto mt-10 px-10">
+      <div className="container mx-auto mt-20 px-10">
         <Card>
           <CardHeader className="mx-4 flex flex-col gap-2">
             <CardTitle className="flex items-center gap-4">
               <Image className="h-10 w-10 rounded-md object-cover" src={playlist?.images?.at(0)?.url || ""} alt={playlist.name} width={40} height={40} />
               <div>
-                <h2 className="text-2xl font-bold text-gray-800">{playlist.name}</h2>
-                <p className="text-sm text-gray-500">{playlist.description}</p>
+                <h2 className="text-2xl font-bold text-foreground">{playlist.name}</h2>
+                <p className="text-sm text-foreground">{playlist.description}</p>
               </div>
             </CardTitle>
             <CardDescription className="flex flex-wrap items-center gap-2">
-              <span className="mr-2 text-sm text-gray-500">Owner:</span>
-              <span className="text-sm text-gray-800">{playlist.owner.display_name}</span>
+              <span className="mr-2 text-sm text-foreground">Owner:</span>
+              <span className="text-sm text-foreground">{playlist.owner.display_name}</span>
             </CardDescription>
             <Connections />
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow className="text-sm font-medium text-gray-500">
+                <TableRow className="text-sm font-medium text-foreground">
                   <TableHead>Track Name</TableHead>
                   <TableHead>Duration</TableHead>
                   <TableHead>Liked</TableHead>
@@ -149,11 +149,11 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
                 )}
                 {playlist.tracks.items.map((track) =>
                   track.track !== null ? (
-                    <TableRow key={track.track.id} className="text-sm text-gray-800">
+                    <TableRow key={track.track.id} className="text-sm text-foreground">
                       <TableCell className="w-full">{track.track.name}</TableCell>
                       <TableCell className="text-nowrap">{Number(track.track.duration_ms / 1000 / 60).toFixed(2)} min</TableCell>
                       <TableCell>
-                        <Heart className={cn(likedTrackIds.has(track.track.id) && "fill-red-500", "text-red-500")} />
+                        <Heart className={cn(likedTrackIds.has(track.track.id) && "fill-primary", "text-primary")} />
                       </TableCell>
                     </TableRow>
                   ) : null

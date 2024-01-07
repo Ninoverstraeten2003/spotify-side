@@ -9,7 +9,7 @@ import { ChevronsUpDown, MoveRight } from "lucide-react";
 
 export default function Loading() {
   return (
-    <div className="container mx-auto mt-10 px-10">
+    <div className="container mx-auto mt-20 px-10">
       <Card>
         <CardHeader className="mx-4 flex flex-col gap-2">
           <CardTitle className="flex items-center gap-4">
@@ -20,7 +20,7 @@ export default function Loading() {
             </div>
           </CardTitle>
           <CardDescription className="flex flex-wrap items-center gap-2">
-            <span className="mr-2 text-sm text-gray-500">Owner:</span>
+            <span className="mr-2 text-sm text-foreground">Owner:</span>
             <Skeleton className="h-5 w-20" />
           </CardDescription>
           <div className="flex flex-wrap items-center gap-2">
@@ -76,7 +76,7 @@ export default function Loading() {
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="text-sm font-medium text-gray-500">
+              <TableRow className="text-sm font-medium text-foreground">
                 <TableHead>Track Name</TableHead>
                 <TableHead>Duration</TableHead>
                 <TableHead>Liked</TableHead>
@@ -84,7 +84,7 @@ export default function Loading() {
             </TableHeader>
             <TableBody>
               {Array.from({ length: 10 }).map((_, i) => (
-                <TableRow key={i} className="text-sm text-gray-800">
+                <TableRow key={i} className="text-sm text-foreground">
                   <TableCell className="w-full">
                     <Skeleton className="h-5 w-80" />
                   </TableCell>

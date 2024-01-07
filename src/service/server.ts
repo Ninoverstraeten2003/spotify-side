@@ -1,5 +1,5 @@
 import keys from "@/keys";
-import { AccessToken, Page, SavedTrack, SpotifyApi, Playlist as SpotifyPlaylist, User } from "@spotify/web-api-ts-sdk";
+import { AccessToken, MaxInt, Page, SavedTrack, SpotifyApi, Playlist as SpotifyPlaylist, User } from "@spotify/web-api-ts-sdk";
 
 const getPlaylist = async ({ accessToken, playlistId }: { accessToken: AccessToken; playlistId: string }) => {
   try {
@@ -22,6 +22,16 @@ const getPlaylists = async ({ accessToken, userId }: { accessToken: AccessToken;
     const playlistsPromises = Array.from({ length: Math.ceil(total / 50) }, (_, i) => SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, 50, i * 50));
     const playlists = await Promise.all(playlistsPromises);
     return playlists?.map((playlist) => playlist.items).flat();
+  } catch (e) {
+    return { type: "error", message: (e as Error).message };
+  }
+};
+
+const getPlaylistsWithPageAndLimit = async ({ accessToken, userId, page, limit }: { accessToken: AccessToken; userId: string; page: number; limit: MaxInt<50> }) => {
+  console.debug("[Called]", "getPlaylists");
+  try {
+    const playlists = await SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).playlists.getUsersPlaylists(userId, limit, page * limit);
+    return playlists.items;
   } catch (e) {
     return { type: "error", message: (e as Error).message };
   }
@@ -100,4 +110,4 @@ const getLikedTracks = async ({ trackIds, accessToken }: { trackIds: string[]; a
   return likedTracks;
 };
 
-export { getLikedTracks, getPlaylist, getPlaylists, getPossibleConnections, getUser, isPlaylist, arePlaylists, isSetOfTrackIds, isUser, areUsers };
+export { getLikedTracks, getPlaylist, getPlaylists, getPossibleConnections, getUser, isPlaylist, arePlaylists, isSetOfTrackIds, isUser, areUsers, getPlaylistsWithPageAndLimit };

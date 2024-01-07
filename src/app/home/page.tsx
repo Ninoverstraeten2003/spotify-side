@@ -1,22 +1,11 @@
-import { getServerSession } from "next-auth/next";
-import authOptions from "../api/auth/[...nextauth]/auth-options";
+import LoadPlaylists from "@/components/load-playlists";
+import { arePlaylists } from "@/service/server";
 import Playlists from "./Playlists";
-import { getPlaylists, arePlaylists } from "@/service/server";
+import { fetchPlaylists } from "./action";
 
 export default async function HomePage() {
-  const session = await getServerSession(authOptions);
-  const accessToken = {
-    access_token: session?.user.access_token!,
-    expires_in: session?.user.expires_in!,
-    token_type: session?.user.token_type!,
-    refresh_token: session?.user.refresh_token!,
-  };
   // await new Promise((resolve) => setTimeout(resolve, 2000));
-  const playlists = await getPlaylists({
-    userId: session?.user.id!,
-    accessToken: accessToken,
-  });
-  if (!arePlaylists(playlists)) return <p>{playlists.message}</p>;
+
   // const playlists: any = [
   //   {
   //     id: "mockId123",
@@ -31,11 +20,15 @@ export default async function HomePage() {
   //     description: "For when you want to unwind and pretend you have your life together.",
   //   },
   //   // Add more mock playlists as needed
-  // ];
+
+  const playlists = await fetchPlaylists(0);
+  if (!arePlaylists(playlists)) return <p>{playlists.message}</p>;
 
   return (
     <>
-      <div className="container h-full">{playlists?.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists} />}</div>
+      <div className="container mt-20 h-full">
+        {playlists?.length === 0 ? <div className="flex h-full w-full items-center justify-center">No Playlists</div> : <Playlists playlists={playlists} />} <LoadPlaylists />
+      </div>
     </>
   );
 }
