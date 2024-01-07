@@ -6,7 +6,7 @@ import authOptions from "../api/auth/[...nextauth]/auth-options";
 import Playlists from "@/app/home/Playlists";
 import { arePlaylists } from "@/service/server";
 
-const MAX_LIMIT = 6;
+const MAX_LIMIT = 8;
 
 export async function fetchPlaylists(page: number) {
   const session = await getServerSession(authOptions);
