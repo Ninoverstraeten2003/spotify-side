@@ -14,17 +14,23 @@ function LoadPlaylists() {
   const { ref, inView } = useInView();
 
   const [data, setData] = useState<Playlist[]>([]);
+  const [hasMorePlaylists, setHasMorePlaylists] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && hasMorePlaylists) {
       setIsLoading(true);
       // Add a delay of 500 milliseconds
       const delay = 500;
-
       const timeoutId = setTimeout(() => {
         fetchPlaylists(page).then((res) => {
-          if (!arePlaylists(res)) return;
+          if (!arePlaylists(res)) {
+            return;
+          }
+          if (res.length === 0) {
+            setHasMorePlaylists(false);
+            return;
+          }
           setData([...data, ...res]);
           page++;
         });
@@ -44,6 +50,7 @@ function LoadPlaylists() {
       </section>
       <section className="flex h-20 w-full items-center justify-center">
         <div ref={ref}>{inView && isLoading && <RefreshCcw className="h-5 w-5" />}</div>
+        {!hasMorePlaylists && <p className="text-muted-foreground">No more playlists</p>}
       </section>
     </>
   );
