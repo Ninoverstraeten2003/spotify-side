@@ -12,12 +12,16 @@ export default async function AccountPage() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="container mx-auto flex justify-between gap-6 px-10 pt-20">
-      <div className="flex max-w-md flex-col gap-6">
+    <div className="container mx-auto flex flex-col justify-between gap-6 px-10 pt-20 lg:flex-row">
+      <div className="mx-auto flex max-w-md flex-col items-center justify-center gap-6">
         <Image src={"https://avatars.githubusercontent.com/u/91029947?v=4"} alt={session.user.name} width={300} height={300} className="rounded-lg" />
         <p className="text-nowrap text-3xl font-bold">{session.user.name}</p>
         <div className="flex gap-2 text-sm">
-          <StickyNote className="h-10 w-10" /> Synced items will be saved in our database. This feature is not available yet and only dummy data is present.
+          <StickyNote className="h-10 w-10" />
+          <div>
+            <p>Synced items will be saved in our database.</p>
+            <p>This feature is not available yet and only dummy data is present</p>
+          </div>
         </div>
         <Button variant="outline" asChild>
           <Link href="/home" className="flex gap-2 rounded-md">
@@ -26,7 +30,7 @@ export default async function AccountPage() {
           </Link>
         </Button>
       </div>
-      <div className="grid w-full grid-cols-2 gap-2">
+      <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
         <Card className="flex flex-col gap-2 p-6">
           <Button variant="outline">Sync Playlists</Button>
           <Progress value={20} className="" />
