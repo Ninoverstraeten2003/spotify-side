@@ -1,5 +1,6 @@
 import keys from "@/keys";
 import { AccessToken, MaxInt, Page, SavedTrack, SpotifyApi, Playlist as SpotifyPlaylist, User } from "@spotify/web-api-ts-sdk";
+import { NEXT_RSC_UNION_QUERY } from "next/dist/client/components/app-router-headers";
 
 const getPlaylist = async ({ accessToken, playlistId }: { accessToken: AccessToken; playlistId: string }) => {
   try {
@@ -110,4 +111,18 @@ const getLikedTracks = async ({ trackIds, accessToken }: { trackIds: string[]; a
   return likedTracks;
 };
 
-export { getLikedTracks, getPlaylist, getPlaylists, getPossibleConnections, getUser, isPlaylist, arePlaylists, isSetOfTrackIds, isUser, areUsers, getPlaylistsWithPageAndLimit };
+const getRecentPlayed = async ({ accessToken, type, time_range, limit = 50, offset = 50 }: { accessToken: AccessToken; type: "tracks" | "artists"; time_range: "short_term" | "medium_term" | "long_term"; limit?: MaxInt<50>; offset?: number }) => {
+  console.debug("[Called]", "getRecentPlayedTracks");
+  try {
+    const unique = new Set<string>();
+    const tracks = await SpotifyApi.withAccessToken(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID, accessToken).currentUser.topItems(type, time_range, limit, offset);
+    tracks.items.forEach((track) => {
+      unique.add(track.id);
+    });
+    return unique;
+  } catch (e) {
+    return { type: "error", message: (e as Error).message };
+  }
+};
+
+export { getLikedTracks, getPlaylist, getPlaylists, getPossibleConnections, getUser, isPlaylist, arePlaylists, isSetOfTrackIds, isUser, areUsers, getPlaylistsWithPageAndLimit, getRecentPlayed };

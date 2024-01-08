@@ -17,15 +17,9 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
     token_type: session?.user.token_type!,
     refresh_token: session?.user.refresh_token!,
   };
-
   const playlist = await getPlaylist({
     playlistId: params.playlistId!,
-    accessToken: {
-      access_token: session?.user.access_token!,
-      expires_in: session?.user.expires_in!,
-      token_type: session?.user.token_type!,
-      refresh_token: session?.user.refresh_token!,
-    },
+    accessToken: accessToken,
   });
   if (!isPlaylist(playlist)) return <p>{playlist.message}</p>;
   // const playlist: any = {
@@ -130,7 +124,7 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
               <span className="text-sm text-foreground">{playlist.owner.display_name}</span>
             </CardDescription>
             <Connections />
-            <PlaylistDropdown/>
+            <PlaylistDropdown />
           </CardHeader>
           <CardContent>
             <Table>
