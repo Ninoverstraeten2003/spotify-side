@@ -13,8 +13,8 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 focus-visible:ring-transparent">
-          <Avatar className="h-9 w-9">
+        <Button variant="ghost" className="relative h-8 w-8 rounded-3xl focus-visible:ring-transparent">
+          <Avatar className="h-9 w-9 rounded-lg">
             <AvatarImage src={session.user?.image!} alt="@username" />
             <AvatarFallback>{session.user.name?.slice(0, 1)}</AvatarFallback>
           </Avatar>

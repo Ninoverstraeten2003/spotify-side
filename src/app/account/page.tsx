@@ -32,24 +32,24 @@ export default async function AccountPage() {
       </div>
       <div className="grid w-full grid-cols-1 gap-2 lg:grid-cols-2">
         <Card className="flex flex-col gap-2 p-6">
-          <Button variant="outline">Sync Playlists</Button>
           <Progress value={20} className="" />
-          <p>10/50</p>
+          <p className="text-right">10/50</p>
+          <Button variant="outline">Sync Playlists</Button>
         </Card>
         <Card className="flex flex-col gap-2 p-6">
-          <Button variant="outline">Sync Likes</Button>
           <Progress value={40} className="" />
-          <p>400/1000</p>
+          <p className="text-right">400/1000</p>
+          <Button variant="outline">Sync Likes</Button>
         </Card>
         <Card className="flex flex-col gap-2 p-6">
-          <Button variant="outline">Sync Recent Played Tracks</Button>
           <Progress value={70} className="" />
-          <p>710/1020</p>
+          <p className="text-right">710/1020</p>
+          <Button variant="outline">Sync Recent Played Tracks</Button>
         </Card>
         <Card className="flex flex-col gap-2 p-6">
-          <Button variant="outline">Sync Top Items</Button>
           <Progress value={10} className="" />
-          <p>10/100</p>
+          <p className="text-right">10/100</p>
+          <Button variant="outline">Sync Top Items</Button>
         </Card>
       </div>
     </div>
