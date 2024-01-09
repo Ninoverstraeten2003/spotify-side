@@ -22,7 +22,6 @@ export default function loading() {
           </Link>
         ))}
       </div>
-      ;
     </div>
   );
 }

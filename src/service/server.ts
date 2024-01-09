@@ -1,6 +1,5 @@
 import keys from "@/keys";
 import { AccessToken, MaxInt, Page, SavedTrack, SpotifyApi, Playlist as SpotifyPlaylist, User } from "@spotify/web-api-ts-sdk";
-import { NEXT_RSC_UNION_QUERY } from "next/dist/client/components/app-router-headers";
 
 const getPlaylist = async ({ accessToken, playlistId }: { accessToken: AccessToken; playlistId: string }) => {
   try {
@@ -125,4 +124,5 @@ const getRecentPlayed = async ({ accessToken, type, time_range, limit = 50, offs
   }
 };
 
-export { getLikedTracks, getPlaylist, getPlaylists, getPossibleConnections, getUser, isPlaylist, arePlaylists, isSetOfTrackIds, isUser, areUsers, getPlaylistsWithPageAndLimit, getRecentPlayed };
+export { arePlaylists, areUsers, getLikedTracks, getPlaylist, getPlaylists, getPlaylistsWithPageAndLimit, getPossibleConnections, getRecentPlayed, getUser, isPlaylist, isSetOfTrackIds, isUser };
+
