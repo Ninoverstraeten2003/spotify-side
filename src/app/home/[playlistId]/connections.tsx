@@ -76,7 +76,7 @@ export default function Connections() {
                       <CommandItem
                         key={id}
                         value={name}
-                        onSelect={() => {
+                        onSelect={(): void => {
                           delete leftValues[name];
                           if (Object.keys(leftValues).length === 0) setLeftValues(null);
                           setRightValues({ ...rightValues, [name]: id });
@@ -120,7 +120,7 @@ export default function Connections() {
                       <CommandItem
                         key={id}
                         value={name}
-                        onSelect={() => {
+                        onSelect={(): void => {
                           delete rightValues[name];
                           if (Object.keys(rightValues).length === 0) setRightValues(null);
                           setLeftValues({ ...leftValues, [name]: id });

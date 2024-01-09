@@ -123,8 +123,8 @@ const PlaylistPage = async ({ params }: { params: { playlistId: string } }) => {
               <span className="mr-2 text-sm text-foreground">Owner:</span>
               <span className="text-sm text-foreground">{playlist.owner.display_name}</span>
             </CardDescription>
-            <Connections />
-            <PlaylistDropdown />
+            {/* <Connections />
+            <PlaylistDropdown /> */}
           </CardHeader>
           <CardContent>
             <Table>

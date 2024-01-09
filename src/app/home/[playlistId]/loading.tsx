@@ -23,7 +23,7 @@ export default function Loading() {
             <span className="mr-2 text-sm text-foreground">Owner:</span>
             <Skeleton className="h-5 w-20" />
           </CardDescription>
-          <div className="flex flex-wrap items-center gap-2">
+          {/* <div className="flex flex-wrap items-center gap-2">
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" role="combobox" className="mt-0 w-[200px] justify-between">
@@ -94,7 +94,7 @@ export default function Loading() {
                 </CommandGroup>
               </Command>
             </PopoverContent>
-          </Popover>
+          </Popover> */}
         </CardHeader>
         <CardContent>
           <Table>
