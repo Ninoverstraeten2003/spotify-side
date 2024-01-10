@@ -27,25 +27,26 @@ const authOptions = {
   },
   callbacks: {
     async jwt({ token, account }: { token: JWT; account: Account | null }) {
-      if (!account) {
+      // Initial sign in
+      if (account) {
+        const updatedToken = {
+          ...token,
+          access_token: account?.access_token,
+          token_type: account?.token_type,
+          expires_at: account?.expires_at ?? Date.now() / 1000,
+          expires_in: (account?.expires_at ?? 0) - Date.now() / 1000,
+          refresh_token: account?.refresh_token,
+          scope: account?.scope,
+          id: account?.providerAccountId,
+        };
+        return updatedToken;
+      }
+      // Return previous token if the access token has not expired yet
+      if (Date.now() / 1000 < (token?.expires_at ?? 0)) {
         return token;
       }
-      const updatedToken = {
-        ...token,
-        access_token: account?.access_token,
-        token_type: account?.token_type,
-        expires_at: account?.expires_at ?? Date.now() / 1000,
-        expires_in: (account?.expires_at ?? 0) - Date.now() / 1000,
-        refresh_token: account?.refresh_token,
-        scope: account?.scope,
-        id: account?.providerAccountId,
-      };
-
-      if (Date.now() < updatedToken.expires_at) {
-        return refreshAccessToken(updatedToken);
-      }
-
-      return updatedToken;
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
     },
     async session({ session, token }: { session: any; token: any }) {
       const user: AuthUser = {

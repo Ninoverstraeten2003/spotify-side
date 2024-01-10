@@ -17,12 +17,20 @@ spotifyProfile.authorization = authURL.toString();
 
 export default spotifyProfile;
 
-export async function refreshAccessToken(token: JWT) {
+const refreshURL = new URL("https://accounts.spotify.com/api/token");
+const authorization = Buffer.from(keys.NEXT_PUBLIC_SPOTIFY_CLIENT_ID + ":" + keys.SPOTIFY_CLIENT_SECRET);
+
+export async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
-    const response = await fetch(authURL, {
+    const response = await fetch(refreshURL, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Basic " + authorization.toString("base64"),
       },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: token.refresh_token as string,
+      }),
       method: "POST",
     });
 
@@ -36,8 +44,8 @@ export async function refreshAccessToken(token: JWT) {
       ...token,
       access_token: refreshedTokens.access_token,
       token_type: refreshedTokens.token_type,
-      expires_at: refreshedTokens.expires_at,
-      expires_in: (refreshedTokens.expires_at ?? 0) - Date.now() / 1000,
+      expires_at: refreshedTokens.expires_in + Date.now() / 1000,
+      expires_in: refreshedTokens.expires_in,
       refresh_token: refreshedTokens.refresh_token ?? token.refresh_token,
       scope: refreshedTokens.scope,
     };
